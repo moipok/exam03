@@ -45,22 +45,47 @@ int		main(int argc, char **argv)
 		ft_putstr("Error: Operation file corrupted\n");
 	else
 	{
+		
 		fscanf(file, "%d %d %c\n%c %f %f %f %f %c", &weght, &hight, &c, &r, &x, &y, &rweght, &rhight, &pixel);
-	i = 0;
-	while (i < hight)
-	{
-		j = 0;
-		while (j < weght)
+
+		if (r == 'R')
 		{
-			if (j >= x - 1 && j <= x + rweght && i >= y - 1 && i <= y + rweght)
-				ft_putchar(pixel);
-			else
-				ft_putchar(c);
-			j++;
+			i = 0;
+			while (i < hight)
+			{
+				j = 0;
+				while (j < weght)
+				{
+					if (j >= x - 1 && j <= x + rweght && i >= y - 1 && i <= y + rhight)
+						ft_putchar(pixel);
+					else
+						ft_putchar(c);
+					j++;
+				}
+				ft_putchar('\n');
+				i++;
+			}
 		}
-		ft_putchar('\n');
-		i++;
-	}
+		else
+		{
+			i = 0;
+			while (i < hight)
+			{
+				j = 0;
+				while (j < weght)
+				{
+					if (j >= x && j <= x + rweght - 1 && i >= y && i <= y + rhight - 1)
+						ft_putchar(c);
+					else if (j >= x - 1 && j <= x + rweght && i >= y - 1 && i <= y + rhight)
+						ft_putchar(pixel);
+					else
+						ft_putchar(c);
+					j++;
+				}
+				ft_putchar('\n');
+				i++;
+			}
+		}
 	}
 	return (0);
 }
