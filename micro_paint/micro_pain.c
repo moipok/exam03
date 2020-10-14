@@ -1,6 +1,7 @@
-
 #include <unistd.h>
 #include <stdio.h>
+#include <math.h>
+#include <stdlib.h>
 
 int		ft_strlen(char *str)
 {
@@ -23,18 +24,19 @@ void	ft_putstr(char *str)
 
 int		main(int argc, char **argv)
 {
-	FILE *file;
+		FILE *file;
 	int	weght;
 	int hight;
 	char c;
 	char r;
 	float x;
 	float y;
-	float rweght;
-	float rhight;
+	float hh;
+	float ww;
 	char pixel; 
 	int i;
 	int j;
+	char **arr;
 
 	if (argc!=2)
 	{
@@ -45,47 +47,74 @@ int		main(int argc, char **argv)
 		ft_putstr("Error: Operation file corrupted\n");
 	else
 	{
-		
-		fscanf(file, "%d %d %c\n%c %f %f %f %f %c", &weght, &hight, &c, &r, &x, &y, &rweght, &rhight, &pixel);
-
-		if (r == 'R')
-		{
-			i = 0;
-			while (i < hight)
-			{
-				j = 0;
-				while (j < weght)
-				{
-					if (j >= x - 1 && j <= x + rweght && i >= y - 1 && i <= y + rhight)
-						ft_putchar(pixel);
-					else
-						ft_putchar(c);
-					j++;
-				}
-				ft_putchar('\n');
-				i++;
-			}
+		fscanf(file, "%d %d %c", &weght, &hight, &c);
+		arr = malloc(sizeof(char*) * (hight + 1));
+		i = 0;
+		while (i < hight)
+		{	
+			arr[i] = malloc(sizeof(char) * (weght + 1));
+			i++;
 		}
-		else
+		printf("qwe\n");
+		i = 0;
+		while (i < hight - 1)
 		{
-			i = 0;
-			while (i < hight)
+			j = 0;
+			while (j < weght - 1)
 			{
-				j = 0;
-				while (j < weght)
+				arr[i][j] = c;
+				j++;
+			}
+			i++;
+			arr[i][j + 1] = '\0';
+		}
+		arr[i][0] = '\0';
+
+		while (fscanf(file, "%c %f %f %f %f %c", &r, &x, &y, &hh, &ww, &pixel) > 0)
+		{
+			if (r == 'R')
+			{
+				i = 0;
+				while (i < hight - 1)
 				{
-					if (j >= x && j <= x + rweght - 1 && i >= y && i <= y + rhight - 1)
-						ft_putchar(c);
-					else if (j >= x - 1 && j <= x + rweght && i >= y - 1 && i <= y + rhight)
-						ft_putchar(pixel);
-					else
-						ft_putchar(c);
-					j++;
+					j = 0;
+					while (j < weght - 1)
+					{
+						if (j >= x && j <= x + hh && i >= y && i <= y + ww)
+							arr[i][j] = pixel;
+						else
+							;
+						j++;
+					}
+					i++;
 				}
-				ft_putchar('\n');
-				i++;
+			
+			}
+			else
+			{
+				i = 0;
+				while (i < hight - 1)
+				{
+					j = 0;
+					while (j < weght - 1)
+					{
+						if (ww > 2 && hh > 2 && j >= x + 1 && j <= x + hh - 1 && i >= y + 1 && i <= y + ww - 1)
+							;
+						else if (j >= x && j <= x + hh && i >= y && i <= y + ww)
+							arr[i][j] = pixel;
+						else
+							;
+						j++;
+					}
+					i++;
+				}
 			}
 		}
 	}
-	return (0);
+		i = 0;
+		while (arr[i])
+		{
+			printf("%s\n", arr[i]);
+			i++;
+		}
 }
